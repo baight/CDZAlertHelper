@@ -3,7 +3,7 @@
 //
 //
 //  Created by baight on 15/5/6.
-//  Copyright (c) 2015年 baight. All rights reserved.
+//  Copyright (c) 2015年 baight All rights reserved.
 //
 
 #import "CDZAlertHelper.h"
@@ -12,7 +12,7 @@
 
 @implementation CDZAlertHelper
 
-+(void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock  cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
++(void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
     
     NSMutableArray* otherButtonTitleArray = [[NSMutableArray alloc]init];
     va_list argList;
@@ -29,7 +29,7 @@
     }
     
     // 8.0 及其以上
-    if([[UIDevice currentDevice].systemVersion compare:@"8.0"] != NSOrderedAscending){
+    if([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending){
         UIAlertController* ac = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         [ac addAction:[UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             if(clickBlock){
@@ -71,7 +71,7 @@
     }
 }
 
-+(void)showActionSheetWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock  cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
++(void)showActionSheetWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
     NSMutableArray* otherButtonTitleArray = [[NSMutableArray alloc]init];
     va_list argList;
     id arg;
@@ -87,7 +87,7 @@
     }
     
     // 8.0 及其以上
-    if([[UIDevice currentDevice].systemVersion compare:@"8.0"] != NSOrderedAscending){
+    if([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending){
         UIAlertController* ac = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
         [ac addAction:[UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             if(clickBlock){
