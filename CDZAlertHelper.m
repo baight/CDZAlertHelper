@@ -1,9 +1,9 @@
 //
 //  CDZAlertHelper.m
-//  IOSForX2New
 //
-//  Created by zhengchen2 on 15/5/6.
-//  Copyright (c) 2015年 haofan. All rights reserved.
+//
+//  Created by baight on 15/5/6.
+//  Copyright (c) 2015年 baight. All rights reserved.
 //
 
 #import "CDZAlertHelper.h"
