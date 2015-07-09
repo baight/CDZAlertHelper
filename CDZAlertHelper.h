@@ -14,6 +14,6 @@ typedef void(^CDZAlertBlock)(NSInteger buttonIndex);
 
 +(void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 
-+(void)showActionSheetWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
++(void)showActionSheetWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButton:(NSString*)destructiveButton otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 
 @end

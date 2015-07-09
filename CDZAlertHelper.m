@@ -71,7 +71,7 @@
     }
 }
 
-+(void)showActionSheetWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
++(void)showActionSheetWithTitle:(NSString *)title message:(NSString *)message clickBlock:(CDZAlertBlock)clickBlock cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButton:(NSString*)destructiveButton otherButtonTitles:(NSString *)otherButtonTitles, ... {
     NSMutableArray* otherButtonTitleArray = [[NSMutableArray alloc]init];
     va_list argList;
     id arg;
@@ -89,17 +89,32 @@
     // 8.0 及其以上
     if([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending){
         UIAlertController* ac = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
-        [ac addAction:[UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            if(clickBlock){
-                clickBlock(0);
-            }
-        }]];
+        
+        NSInteger offest = 0;
+        if(cancelButtonTitle){
+            [ac addAction:[UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                if(clickBlock){
+                    clickBlock(0);
+                }
+            }]];
+            offest++;
+        }
+        
+        if(destructiveButton){
+            [ac addAction:[UIAlertAction actionWithTitle:destructiveButton style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                if(clickBlock){
+                    clickBlock(1);
+                }
+            }]];
+            offest++;
+        }
+        
         
         NSInteger index = 0;
         for(NSString* s in otherButtonTitleArray){
             [ac addAction:[UIAlertAction actionWithTitle:s style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 if(clickBlock){
-                    clickBlock(index+1);
+                    clickBlock(index + offest);
                 }
             }]];
             index++;
@@ -114,11 +129,15 @@
     }
     // 8.0以下
     else{
-        [UIActionSheet presentOnView:[UIApplication sharedApplication].keyWindow withTitle:title otherButtons:otherButtonTitleArray onCancel:^(UIActionSheet * ac) {
+        [UIActionSheet presentOnView:[UIApplication sharedApplication].keyWindow withTitle:title cancelButton:cancelButtonTitle destructiveButton:destructiveButton otherButtons:otherButtonTitleArray onCancel:^(UIActionSheet *ac) {
             if(clickBlock){
                 clickBlock(0);
             }
-        } onClickedButton:^(UIActionSheet * ac, NSUInteger index) {
+        } onDestructive:^(UIActionSheet *ac) {
+            if(clickBlock){
+                clickBlock(1);
+            }
+        } onClickedButton:^(UIActionSheet *ac, NSUInteger index) {
             if(clickBlock){
                 clickBlock(index);
             }
