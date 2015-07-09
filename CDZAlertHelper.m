@@ -47,13 +47,8 @@
             index++;
         }
         
-        UIViewController* c = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-        if(c.presentedViewController){
-            [c.presentedViewController presentViewController:ac animated:YES completion:nil];
-        }
-        else{
-            [c presentViewController:ac animated:YES completion:nil];
-        }
+        UIViewController* c = [self getTopViewController];
+        [c presentViewController:ac animated:YES completion:nil];
     }
     // 8.0以下
     else{
@@ -119,13 +114,8 @@
             }]];
             index++;
         }
-        UIViewController* c = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-        if(c.presentedViewController){
-            [c.presentedViewController presentViewController:ac animated:YES completion:nil];
-        }
-        else{
-            [c presentViewController:ac animated:YES completion:nil];
-        }
+        UIViewController* c = [self getTopViewController];
+        [c presentViewController:ac animated:YES completion:nil];
     }
     // 8.0以下
     else{
@@ -143,6 +133,38 @@
             }
         }];
     }
+}
+
++ (UIViewController*)getTopViewController{
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal){
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows){
+            if (tmpWin.windowLevel == UIWindowLevelNormal && !tmpWin.hidden){
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    UIView *frontView = [[window subviews] firstObject];
+    UIViewController* controller = [frontView viewController];
+    do{
+        while (controller.presentedViewController) {
+            controller = controller.presentedViewController;
+        }
+        if ([controller isKindOfClass:[UINavigationController class]]){
+            UINavigationController* nav = (UINavigationController*)controller;
+            controller = [nav topViewController];
+        }
+        else if ([controller isKindOfClass:[UIViewController class]]){
+            controller = controller;
+        }
+        else{
+            controller = window.rootViewController;
+        }
+    } while (controller.presentedViewController);
+    
+    return controller;
 }
 
 @end
