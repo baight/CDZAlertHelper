@@ -147,7 +147,8 @@
         }
     }
     UIView *frontView = [[window subviews] firstObject];
-    UIViewController* controller = [frontView viewController];
+    
+    UIViewController* controller = [self controllerOfView:frontView];
     do{
         while (controller.presentedViewController) {
             controller = controller.presentedViewController;
@@ -165,6 +166,16 @@
     } while (controller.presentedViewController);
     
     return controller;
+}
+
++ (UIViewController*)controllerOfView:(UIView*)view{
+    for (UIView* next = view; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    return nil;
 }
 
 @end
